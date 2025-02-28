@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
-import GNB from "../components/GNB.tsx";
+//import GNB from "../components/GNB.tsx";
 import { mathProblems } from "../data/mathProblems.ts";  // 문제 데이터 임포트
 // import ThemeButton from "../components/ThemeButton.tsx";
 
@@ -104,6 +104,12 @@ const MathProblemContainer = styled.div`
     align-items: center;
 `;
 
+interface MathProblem {
+    question: string;
+    choices: string[];
+    correctAnswer: number;
+}
+
 const Main = () => {
     const [time, setTime] = useState(0);
     const [inputHour, setInputHour] = useState(''); // 초기값을 빈 문자열로 설정
@@ -114,7 +120,7 @@ const Main = () => {
     const [darkMode] = useState(() =>
         window.matchMedia("(prefers-color-scheme: dark)").matches
     );
-    const [mathProblem, setMathProblem] = useState({
+    const [mathProblem, setMathProblem] = useState<MathProblem>({
         question: "",
         choices: [],
         correctAnswer: -1,
@@ -163,9 +169,9 @@ const Main = () => {
             second
         );
 
-        if (amPm === "PM" && inputHour < 12) {
+        if (amPm === "PM" && Number(inputHour) < 12) {
             targetTime.setHours(targetTime.getHours() + 12); // PM일 경우 12시간 더함
-        } else if (amPm === "AM" && inputHour === 12) {
+        } else if (amPm === "AM" && Number(inputHour) === 12) {
             targetTime.setHours(targetTime.getHours() - 12); // 12AM을 0시로 설정
         }
 
